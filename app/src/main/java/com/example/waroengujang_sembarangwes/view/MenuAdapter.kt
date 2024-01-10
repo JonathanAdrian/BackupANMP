@@ -9,12 +9,12 @@ import android.widget.TextView
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.RecyclerView
 import com.example.waroengujang_sembarangwes.R
-import com.example.waroengujang_sembarangwes.model.Menu
+import com.example.waroengujang_sembarangwes.model.MenuEntity
 import com.example.waroengujang_sembarangwes.viewmodel.MenuDetailViewModel
 import com.squareup.picasso.Picasso
 
 
-class MenuAdapter(private val menu: ArrayList<Menu>, private val menuDetailViewModel: MenuDetailViewModel)
+class MenuAdapter(private var menuEntities: List<MenuEntity>, private val menuDetailViewModel: MenuDetailViewModel)
     : RecyclerView.Adapter<MenuAdapter.MenuViewHolder>(){
     class MenuViewHolder(v: View): RecyclerView.ViewHolder(v)
 
@@ -31,35 +31,27 @@ class MenuAdapter(private val menu: ArrayList<Menu>, private val menuDetailViewM
         var imgFoto = holder.itemView.findViewById<ImageView>(R.id.imgFoto)
         var btnDetail = holder.itemView.findViewById<Button>(R.id.btnDetail)
 
-        var nama = menu[position].nama
-        var harga = menu[position].harga
-        var kategori = menu[position].kategori
-        var foto = menu[position].foto
+        val currentItem = menuEntities[position]
 
-        txtNama.text = "$nama"
-        txtHarga.text = "Rp. $harga"
-        txtKategori.text = "$kategori"
-        Picasso.get().load(foto).into(imgFoto)
+        txtNama.text = currentItem.nama
+        txtHarga.text = currentItem.harga.toString()
+        txtKategori.text = currentItem.kategori
+        Picasso.get().load(currentItem.foto).into(imgFoto)
 
-        btnDetail.setOnClickListener(){
-            val selectedItem = menu[position]
-
-            menuDetailViewModel.setSelectedMenu(selectedItem)
+        btnDetail.setOnClickListener {
+            menuDetailViewModel.setSelectedMenu(currentItem)
 
             val action = MenuFragmentDirections.actionMenuDetailFragment()
             Navigation.findNavController(it).navigate(action)
         }
     }
 
-    fun updateMenu(newMenu: ArrayList<Menu>){
-        menu.clear()
-        menu.addAll(newMenu)
+    fun updateMenu(newMenuEntities: List<MenuEntity>) {
+        menuEntities = newMenuEntities
         notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
-        return menu.size
+        return menuEntities.size
     }
-
-
 }

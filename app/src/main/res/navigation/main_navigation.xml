@@ -22,20 +22,6 @@
             app:destination="@id/itemHome" />
     </fragment>
     <fragment
-        android:id="@+id/itemCart"
-        android:name="com.example.waroengujang_sembarangwes.view.CartFragment"
-        android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
-    <fragment
-        android:id="@+id/itemOrder"
-        android:name="com.example.waroengujang_sembarangwes.view.OrderFragment"
-        android:label="fragment_order"
-        tools:layout="@layout/fragment_order" >
-        <action
-            android:id="@+id/ActionOrderDetail"
-            app:destination="@id/orderDetailFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/itemProfile"
         android:name="com.example.waroengujang_sembarangwes.view.ProfileFragment"
         android:label="fragment_profile"
@@ -46,6 +32,15 @@
         android:label="fragment_menu_detail"
         tools:layout="@layout/fragment_menu_detail" />
     <fragment
+        android:id="@+id/itemOrder"
+        android:name="com.example.waroengujang_sembarangwes.view.OrderFragment"
+        android:label="fragment_order"
+        tools:layout="@layout/fragment_order" >
+        <action
+            android:id="@+id/ActionOrderDetail"
+            app:destination="@id/orderDetailFragment" />
+    </fragment>
+    <fragment
         android:id="@+id/orderDetailFragment"
         android:name="com.example.waroengujang_sembarangwes.view.OrderDetailFragment"
         android:label="fragment_order_detail"
@@ -54,4 +49,9 @@
             android:id="@+id/ActionItemMenu"
             app:destination="@id/itemMenu" />
     </fragment>
+    <fragment
+        android:id="@+id/itemCart"
+        android:name="com.example.waroengujang_sembarangwes.view.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
 </navigation>

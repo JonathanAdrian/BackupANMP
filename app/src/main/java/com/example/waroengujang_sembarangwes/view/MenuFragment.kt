@@ -14,7 +14,8 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.waroengujang_sembarangwes.R
-import com.example.waroengujang_sembarangwes.model.Menu
+import com.example.waroengujang_sembarangwes.model.MenuEntity
+
 import com.example.waroengujang_sembarangwes.viewmodel.MenuDetailViewModel
 import com.example.waroengujang_sembarangwes.viewmodel.MenuViewModel
 import com.example.waroengujang_sembarangwes.viewmodel.SharedViewModel
@@ -34,10 +35,12 @@ class MenuFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_menu, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         viewModel = ViewModelProvider(this).get(MenuViewModel::class.java)
         menuAdapter = MenuAdapter(arrayListOf(), menuDetailViewModel)
         viewModel.refresh()
@@ -65,21 +68,20 @@ class MenuFragment : Fragment() {
             Navigation.findNavController(it).navigate(action)
         }
 
-        btnSearch.setOnClickListener {
-            val searchQuery = editSearch.text?.toString()?.trim()
-
-            val menus = viewModel.menusLD.value
-            val filteredMenu = menus?.filter { menu ->
-                searchQuery?.let { it1 -> menu?.nama?.contains(it1, ignoreCase = true) } == true
-            }
-
-            menuAdapter.updateMenu(filteredMenu as ArrayList<Menu>)
-        }
+//        btnSearch.setOnClickListener {
+//            val searchQuery = editSearch.text?.toString()?.trim()
+//
+//            if (!searchQuery.isNullOrEmpty()) {
+//                viewModel.searchMenus("%$searchQuery%")
+//            } else {
+//                viewModel.refresh()
+//            }
+//        }
     }
 
     fun observeViewModel() {
-        viewModel.menusLD.observe(viewLifecycleOwner, Observer {
-            menuAdapter.updateMenu(it)
+        viewModel.menusLD.observe(viewLifecycleOwner, Observer { menuEntities ->
+            menuAdapter.updateMenu(menuEntities)
         })
     }
 }

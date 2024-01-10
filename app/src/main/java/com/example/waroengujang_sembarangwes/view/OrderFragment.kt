@@ -11,33 +11,42 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.waroengujang_sembarangwes.R
+import com.example.waroengujang_sembarangwes.viewmodel.CartViewModel
+import com.example.waroengujang_sembarangwes.viewmodel.MenuDetailViewModel
+import com.example.waroengujang_sembarangwes.viewmodel.OrderDetailViewModel
 import com.example.waroengujang_sembarangwes.viewmodel.OrderViewModel
 
 class OrderFragment : Fragment() {
-
     private lateinit var recyclerView: RecyclerView
     private lateinit var orderViewModel: OrderViewModel
-    private lateinit var adapter: RvAdapterOrder
+    private lateinit var orderDetailViewModel: OrderDetailViewModel
+    private lateinit var orderAdapter: RvAdapterOrder
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        orderDetailViewModel = ViewModelProvider(requireActivity()).get(OrderDetailViewModel::class.java)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_order, container, false)
+        orderViewModel = ViewModelProvider(requireActivity()).get(OrderViewModel::class.java)
+        orderAdapter = RvAdapterOrder(arrayListOf(), orderDetailViewModel)
+
         recyclerView = view.findViewById(R.id.rvOrder)
+        recyclerView.layoutManager = LinearLayoutManager(context)
+        recyclerView.adapter = orderAdapter
+
+        observeViewModel()
+
         return view
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        orderViewModel = ViewModelProvider(this).get(OrderViewModel::class.java)
+    fun observeViewModel() {
         orderViewModel.orderLD.observe(viewLifecycleOwner, Observer { orders ->
-            orders?.let {
-                adapter = RvAdapterOrder(it, findNavController())
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
-                recyclerView.adapter = adapter
-            }
+            orderAdapter.updateOrder(orders)
         })
-        orderViewModel.refresh()
     }
 }

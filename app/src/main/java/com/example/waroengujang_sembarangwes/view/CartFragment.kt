@@ -2,21 +2,25 @@ package com.example.waroengujang_sembarangwes.view
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.waroengujang_sembarangwes.R
-import com.example.waroengujang_sembarangwes.model.CartItem
+import com.example.waroengujang_sembarangwes.model.Order
+import com.example.waroengujang_sembarangwes.model.OrderDetail
 import com.example.waroengujang_sembarangwes.viewmodel.CartViewModel
 import com.example.waroengujang_sembarangwes.viewmodel.SharedViewModel
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.UUID
 
 class CartFragment : Fragment() {
     private lateinit var sharedViewModel: SharedViewModel
@@ -39,10 +43,11 @@ class CartFragment : Fragment() {
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewCart)
         recyclerView.layoutManager = LinearLayoutManager(context)
-//        cartAdapter = sharedViewModel.cartAdapter.value ?: CartItemAdapter(ArrayList())
         cartAdapter = CartItemAdapter(ArrayList(), sharedViewModel)
 
         recyclerView.adapter = cartAdapter
+
+        observeViewModel()
 
         txtSubtotal = view.findViewById(R.id.txtSubtotal)
         txtTax = view.findViewById(R.id.txtTax)
@@ -54,38 +59,57 @@ class CartFragment : Fragment() {
             txtTableNum.text = "Table $tableNumber"
         })
 
-        sharedViewModel.cartItems.observe(viewLifecycleOwner) { cartItems ->
-
+        sharedViewModel.cartItemEntity.observe(viewLifecycleOwner) { cartItems ->
             cartAdapter.updateCart(cartItems)
-            val subtotal = calculateSubtotal(cartItems)
-            val tax = calculateTax(subtotal)
-            val total = subtotal + tax
+            cartViewModel.calculateCartTotals(cartItems)
+        }
 
-            sharedViewModel.subtotal.value = subtotal
-            sharedViewModel.tax.value = tax
-            sharedViewModel.total.value = total
-
+        cartViewModel.subtotal.observe(viewLifecycleOwner) { subtotal ->
             txtSubtotal.text = "Subtotal: IDR $subtotal"
+        }
+
+        cartViewModel.tax.observe(viewLifecycleOwner) { tax ->
             txtTax.text = "Tax (10%): IDR $tax"
+        }
+
+        cartViewModel.total.observe(viewLifecycleOwner) { total ->
             txtTotal.text = "Total: IDR $total"
         }
 
+        val btnProses = view.findViewById<Button>(R.id.btnProses)
         btnProses.setOnClickListener {
-            cartViewModel.processToKitchen()
+            val currentTime: Date = Calendar.getInstance().getTime()
+            val dateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss")
+            val currentTimeString: String = dateFormat.format(currentTime)
 
-            sharedViewModel.cartItems.value = cartViewModel.cartItems.value
-            sharedViewModel.cartAdapter.value = cartAdapter
+            val order = Order(
+                order_id = UUID.randomUUID().toString(),
+                no_table = 1,
+                harga_total = cartViewModel.total.value?.toInt() ?: 0,
+                duration = currentTimeString,
+                status = 0
+            )
+            cartViewModel.insertOrder(order)
+
+            cartViewModel.cartItemsLD.value?.forEach { cartItem ->
+                val orderDetail = OrderDetail(
+                    order_id = order.order_id,
+                    table = 1,
+                    duration = currentTimeString,
+                    menuItemId = cartItem.menuItemId,
+                    quantity = cartItem.quantity
+                )
+                cartViewModel.insertOrderDetail(orderDetail)
+            }
         }
 
         return view
     }
 
-    private fun calculateSubtotal(cartItems: List<CartItem>): Double {
-        return cartItems.sumOf { it.menuItem.harga!!.toDouble() * it.quantity }
+    fun observeViewModel() {
+        cartViewModel.cartItemsLD.observe(viewLifecycleOwner, Observer { cartItemEntities ->
+            cartAdapter.updateCart(cartItemEntities)
+            cartViewModel.calculateCartTotals(cartItemEntities)
+        })
     }
-
-    private fun calculateTax(subtotal: Double): Double {
-        return subtotal * 0.10
-    }
-
 }
