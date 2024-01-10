@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(
-    entities = [MenuEntity::class, CartItemEntity::class, Order::class, OrderDetail::class],
-    version = 6,
+    entities = [MenuEntity::class, CartItemEntity::class, Order::class, OrderDetail::class, Waiter::class],
+    version = 7,
     exportSchema = false
 )
 abstract class MenuDatabase : RoomDatabase() {
@@ -15,6 +15,7 @@ abstract class MenuDatabase : RoomDatabase() {
     abstract fun menuDao(): MenuDao
     abstract fun cartDao(): CartDao
     abstract fun orderDao(): OrderDao
+    abstract fun waiterDao(): WaiterDao
 
     companion object {
         @Volatile

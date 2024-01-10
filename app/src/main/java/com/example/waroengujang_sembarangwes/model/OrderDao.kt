@@ -27,6 +27,8 @@ interface OrderDao {
     @Query("SELECT * FROM order_detail_table")
     fun getAllOrderDetails(): LiveData<List<OrderDetail>>
 
+//    @Query("DELETE FROM order_detail_table WHERE order_id = :order_id")
+//    fun deleteOrderDetail(order_id: Long): LiveData<List<OrderDetail>>
 }
 
 

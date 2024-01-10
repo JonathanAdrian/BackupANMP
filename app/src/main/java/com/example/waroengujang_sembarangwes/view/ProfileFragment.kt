@@ -7,11 +7,13 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.Shader
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -24,6 +26,7 @@ import com.squareup.picasso.Transformation
 class ProfileFragment : Fragment() {
 
     private lateinit var waiterViewModel: WaiterViewModel
+    private lateinit var username: String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +42,17 @@ class ProfileFragment : Fragment() {
         val txtNamaProfile = view.findViewById<TextView>(R.id.txtNamaProfile)
         val txtWorkSince = view.findViewById<TextView>(R.id.txtWorkSince)
         val btnSignOut = view.findViewById<Button>(R.id.btnSignOut)
+        val editTextOldPass = view.findViewById<EditText>(R.id.editTextOldPass)
+        val editTextNewPass = view.findViewById<EditText>(R.id.editTextNewPass)
+        val editTextRetypePass = view.findViewById<EditText>(R.id.editTextRetypePass)
+        val btnChangePassword = view.findViewById<Button>(R.id.btnChangePassword)
 
         waiterViewModel = ViewModelProvider(this).get(WaiterViewModel::class.java)
-        waiterViewModel.orderLD.observe(viewLifecycleOwner) { waiters ->
+        waiterViewModel.waiterLD.observe(viewLifecycleOwner) { waiters ->
             waiters?.let {
                 val firstOrder = it.first()
                 txtNamaProfile.text = firstOrder.name
+                username = firstOrder.username
                 txtWorkSince.text = "Work since: " + firstOrder.work_since
 
                 val transformation: Transformation = object : Transformation {
@@ -77,7 +85,20 @@ class ProfileFragment : Fragment() {
             }
         }
         waiterViewModel.refresh()
-         waiterViewModel.refresh()
+
+        btnChangePassword.setOnClickListener {
+            val newPassword = editTextNewPass.text.toString().trim()
+            if (newPassword.isNotEmpty()) {
+                val waiterUsername = username
+                Log.e("asu", "onViewCreated: $username",)
+
+                waiterViewModel.updateWaiterPassword(newPassword, waiterUsername)
+
+                Toast.makeText(requireActivity(), "Password updated successfully", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireActivity(), "Please enter a new password", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         btnSignOut.setOnClickListener {
             val intent = Intent(requireActivity(), LoginActivity::class.java)

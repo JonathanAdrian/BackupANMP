@@ -59,11 +59,11 @@
                 app:layout_constraintTop_toBottomOf="@+id/txtWorkSince" />
 
             <EditText
-                android:id="@+id/editTextText2"
+                android:id="@+id/editTextOldPass"
                 android:layout_width="265dp"
                 android:layout_height="65dp"
                 android:layout_marginStart="48dp"
-                android:layout_marginTop="29dp"
+                android:layout_marginTop="16dp"
                 android:ems="10"
                 android:hint="Old password"
                 android:inputType="text"
@@ -71,43 +71,50 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
             <EditText
-                android:id="@+id/editTextText3"
+                android:id="@+id/editTextNewPass"
                 android:layout_width="266dp"
                 android:layout_height="66dp"
                 android:layout_marginTop="16dp"
                 android:ems="10"
                 android:hint="New password"
                 android:inputType="text"
-                app:layout_constraintStart_toStartOf="@+id/editTextText2"
-                app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+                app:layout_constraintStart_toStartOf="@+id/editTextOldPass"
+                app:layout_constraintTop_toBottomOf="@+id/editTextOldPass" />
 
             <EditText
-                android:id="@+id/editTextText4"
-                android:layout_width="261dp"
-                android:layout_height="86dp"
+                android:id="@+id/editTextRetypePass"
+                android:layout_width="256dp"
+                android:layout_height="48dp"
                 android:layout_marginStart="4dp"
 
                 android:layout_marginTop="24dp"
                 android:ems="10"
                 android:hint="Retype new password"
                 android:inputType="text"
-                app:layout_constraintStart_toStartOf="@+id/editTextText3"
-                app:layout_constraintTop_toBottomOf="@+id/editTextText3" />
+                app:layout_constraintStart_toStartOf="@+id/editTextNewPass"
+                app:layout_constraintTop_toBottomOf="@+id/editTextNewPass" />
 
             <Button
                 android:id="@+id/btnSignOut"
                 style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
+                android:layout_width="119dp"
+                android:layout_height="49dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
                 android:text="Sign Out"
                 app:cornerRadius="10dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/editTextText4" />
+                app:layout_constraintStart_toStartOf="@+id/editTextRetypePass"
+                app:layout_constraintTop_toBottomOf="@+id/editTextRetypePass" />
+
+            <Button
+                android:id="@+id/btnChangePassword"
+                style="@style/Widget.MaterialComponents.ExtendedFloatingActionButton"
+                android:layout_width="112dp"
+                android:layout_height="51dp"
+                android:layout_marginTop="10dp"
+                android:text="UPDATE"
+                app:cornerRadius="10dp"
+                app:layout_constraintEnd_toEndOf="@+id/editTextRetypePass"
+                app:layout_constraintTop_toBottomOf="@+id/editTextRetypePass" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

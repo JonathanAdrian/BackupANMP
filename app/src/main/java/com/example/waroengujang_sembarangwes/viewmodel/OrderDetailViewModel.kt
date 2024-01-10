@@ -42,4 +42,8 @@ class OrderDetailViewModel(application: Application) : AndroidViewModel(applicat
     fun setSelectedOrder(order: Order) {
         _selectedOrder.value = order
     }
+
+//    fun deleteOrderDetail(order_id: Long){
+//
+//    }
 }

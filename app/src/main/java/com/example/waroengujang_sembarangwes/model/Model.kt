@@ -24,10 +24,14 @@ data class Order(
     val duration: String,
     val status: Int
 )
+@Entity(tableName = "waiter_table")
 data class Waiter(
-    val img_url:String,
-    val work_since:String,
-    val name:String
+    @PrimaryKey
+    val username:String,
+    val password:String,
+    val img_url: String,
+    val work_since: String,
+    val name: String
 )
 @Entity(
     tableName = "order_detail_table",
@@ -50,7 +54,6 @@ data class OrderDetail(
     val menuItemId: Long,
     val quantity: Int?
 )
-
 
 @Entity(tableName = "cart_items")
 data class CartItemEntity(
