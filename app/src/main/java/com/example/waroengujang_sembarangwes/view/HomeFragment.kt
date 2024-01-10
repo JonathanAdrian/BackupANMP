@@ -16,6 +16,7 @@ import com.example.waroengujang_sembarangwes.viewmodel.SharedViewModel
 
 class HomeFragment : Fragment() {
     private lateinit var viewModel: HomeViewModel
+    private lateinit var sharedViewModel: SharedViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,7 +38,7 @@ class HomeFragment : Fragment() {
         val txtServingHome = view.findViewById<TextView>(R.id.txtServingHome)
 
         viewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        val sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
+        sharedViewModel = ViewModelProvider(requireActivity()).get(SharedViewModel::class.java)
 
         btnSubmitHome.setOnClickListener {
             val tableNumber = editTableHome.text.toString()

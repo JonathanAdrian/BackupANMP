@@ -101,6 +101,7 @@ class CartFragment : Fragment() {
                 )
                 cartViewModel.insertOrderDetail(orderDetail)
             }
+            cartViewModel.clearCart()
         }
 
         return view

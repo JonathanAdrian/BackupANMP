@@ -13,6 +13,10 @@ class CartRepository(private val cartDao: CartDao) {
         cartDao.insertCartItem(cartItemEntity)
     }
 
+    fun deleteCartItem(cartItemEntity: CartItemEntity) {
+        cartDao.deleteCartItem(cartItemEntity)
+    }
+
     fun updateCartItem(menuItemId: Long, quantity: Int) {
         cartDao.updateCartItem(menuItemId, quantity)
     }

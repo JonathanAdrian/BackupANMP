@@ -17,6 +17,9 @@ interface MenuDao {
     @Query("DELETE FROM menu_table")
     fun clearAllMenus()
 
+    @Query("SELECT * FROM menu_table WHERE id = :menuId")
+    fun getMenuById(menuId: Long): MenuEntity?
+
 //    @Query("SELECT * FROM menu_table WHERE nama LIKE :searchQuery")
 //    fun searchMenus(searchQuery: String): LiveData<List<MenuEntity>>
 }

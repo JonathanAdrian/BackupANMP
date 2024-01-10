@@ -50,18 +50,20 @@ class CartItemAdapter(private var cartItemEntity: List<CartItemEntity>,
         txtQty.text = cartItem.quantity.toString()
 
         imageButtonAdd.setOnClickListener {
-            cartItem.quantity = cartItem.quantity!! + 1
+            cartItem.quantity = cartItem.quantity?.plus(1) ?: 1
             txtQty.text = cartItem.quantity.toString()
-            sharedViewModel.cartItemEntity.value = ArrayList(cartItemEntity)
+            updateCartItemInSharedViewModel(cartItem)
         }
 
         imageButtonMin.setOnClickListener {
             if (cartItem.quantity!! > 1) {
                 cartItem.quantity = cartItem.quantity!! - 1
                 txtQty.text = cartItem.quantity.toString()
+                updateCartItemInSharedViewModel(cartItem)
             }
-            sharedViewModel.cartItemEntity.value = ArrayList(cartItemEntity)
-
+            else{
+                removeFromCart(cartItem)
+            }
         }
     }
 
@@ -72,5 +74,22 @@ class CartItemAdapter(private var cartItemEntity: List<CartItemEntity>,
 
     override fun getItemCount(): Int {
         return cartItemEntity.size
+    }
+
+    private fun updateCartItemInSharedViewModel(cartItem: CartItemEntity) {
+        val currentCartItems = sharedViewModel.cartItemEntity.value?.toMutableList() ?: mutableListOf()
+
+        val index = currentCartItems.indexOfFirst { it.menuItemId == cartItem.menuItemId }
+
+        if (index != -1) {
+            currentCartItems[index] = cartItem
+            sharedViewModel.cartItemEntity.postValue(currentCartItems)
+        }
+    }
+
+    private fun removeFromCart(cartItem: CartItemEntity) {
+        val updatedCartItems = ArrayList(cartItemEntity)
+        updatedCartItems.removeIf { it.menuItemId == cartItem.menuItemId }
+        sharedViewModel.cartItemEntity.value = updatedCartItems
     }
 }

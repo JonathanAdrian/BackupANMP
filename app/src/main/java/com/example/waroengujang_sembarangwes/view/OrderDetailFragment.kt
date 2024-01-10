@@ -50,10 +50,29 @@ class OrderDetailFragment : Fragment() {
             txtHargaOd.text = order.harga_total.toString()
         })
 
-        viewModel.orderdetailLD.observe(viewLifecycleOwner, { orderDetails ->
-            val formattedMenuDetails = orderDetails.joinToString { "Quantity:${it.quantity}, Menu ID:${it.menuItemId}" }
-            txtOrderOd.text = formattedMenuDetails
-        })
+//        viewModel.orderdetailLD.observe(viewLifecycleOwner, { orderDetails ->
+//            val formattedMenuDetails = orderDetails.joinToString { "Quantity:${it.quantity}, Menu ID:${it.menuItemId}" }
+//            txtOrderOd.text = formattedMenuDetails
+//        })
+
+        viewModel.orderdetailLD.observe(viewLifecycleOwner) { orderDetails ->
+            val selectedOrder = viewModel.selectedOrder.value
+
+            // Check if the selected order is not null and has a valid receiptId
+            if (selectedOrder != null && selectedOrder.order_id != null) {
+                // Filter orderDetails based on the receiptId
+                val filteredOrderDetails =
+                    orderDetails.filter { it.order_id == selectedOrder.order_id }
+
+                // Format and display the filtered orderDetails
+                val formattedMenuDetails =
+                    filteredOrderDetails.joinToString { "Quantity:${it.quantity}, Menu ID:${it.menuItemId}" }
+                txtOrderOd.text = formattedMenuDetails
+            } else {
+                // Handle the case where the selected order or receiptId is null
+                txtOrderOd.text = "No order details available."
+            }
+        }
 
         btnOrderMore.setOnClickListener {
             val action = OrderDetailFragmentDirections.ActionItemMenu()

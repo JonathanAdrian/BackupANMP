@@ -43,6 +43,12 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
             repository.insertCartItem(cartItemEntity)
         }
     }
+
+    fun deleteCartItem(cartItemEntity: CartItemEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.insertCartItem(cartItemEntity)
+        }
+    }
     fun updateCartItem(menuItemId: Long, quantity: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.updateCartItem(menuItemId,quantity)
@@ -79,6 +85,15 @@ class CartViewModel(application: Application) : AndroidViewModel(application) {
     fun insertOrderDetail(orderDetail: OrderDetail) {
         viewModelScope.launch(Dispatchers.IO) {
             orderRepository.insertOrderDetail(orderDetail)
+        }
+    }
+
+    fun clearCart() {
+        // Clear the cart items
+        cartItemsLD.value?.let { cartItems ->
+            cartItems.forEach { cartItem ->
+                deleteCartItem(cartItem)
+            }
         }
     }
 }

@@ -15,6 +15,7 @@ import com.example.waroengujang_sembarangwes.model.CartItemEntity
 import com.example.waroengujang_sembarangwes.viewmodel.CartViewModel
 import com.example.waroengujang_sembarangwes.viewmodel.MenuDetailViewModel
 import com.example.waroengujang_sembarangwes.viewmodel.SharedViewModel
+import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
 
 class MenuDetailFragment : Fragment() {
@@ -96,6 +97,7 @@ class MenuDetailFragment : Fragment() {
                     sharedViewModel.cartAdapter.value = cartAdapter
 
                     doesExistLiveData.removeObservers(viewLifecycleOwner)
+                    Snackbar.make(view, "Item sukses dimasukan dalam keranjang", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
