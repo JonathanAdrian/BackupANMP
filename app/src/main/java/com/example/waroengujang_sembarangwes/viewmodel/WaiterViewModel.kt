@@ -39,7 +39,7 @@ class WaiterViewModel(application: Application): AndroidViewModel(application) {
             val sampleWaiter = Waiter(
                 username = "joko",
                 password = "111",
-                img_url = "asd.jpg",
+                img_url = "https://www.hollywoodreporter.com/wp-content/uploads/2023/05/Jennie-Kim-2023-Met-Gala-getty-1486924742-H-2023.jpg?w=1296",
                 work_since = "January",
                 name = "Joko"
             )

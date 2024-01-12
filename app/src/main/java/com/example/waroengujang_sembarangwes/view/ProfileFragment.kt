@@ -17,6 +17,7 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.databinding.BindingAdapter
 import androidx.lifecycle.ViewModelProvider
 import com.example.waroengujang_sembarangwes.R
 import com.example.waroengujang_sembarangwes.model.Waiter
@@ -36,6 +37,7 @@ class ProfileFragment : Fragment() {
     ): View? {
         return inflater.inflate(R.layout.fragment_profile, container, false)
     }
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -121,5 +123,7 @@ class ProfileFragment : Fragment() {
             Toast.makeText(requireActivity(), "Anda Telah Keluar", Toast.LENGTH_SHORT).show()
 
         }
+
+
     }
 }
