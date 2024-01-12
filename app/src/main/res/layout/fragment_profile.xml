@@ -30,6 +30,7 @@
                 android:maxWidth="150dp"
                 android:maxHeight="150dp"
                 android:scaleType="centerCrop"
+                android:imageUrl="@{profile.img_url}"
                 android:src="@drawable/ic_launcher_foreground"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
