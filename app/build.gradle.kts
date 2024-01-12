@@ -9,6 +9,10 @@ android {
     namespace = "com.example.waroengujang_sembarangwes"
     compileSdk = 34
 
+    buildFeatures {
+        dataBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.example.waroengujang_sembarangwes"
         minSdk = 24

@@ -1,7 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout  xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <variable
+            name="cart" type="com.example.waroengujang_sembarangwes.model.CartItemEntity" />
+
+    </data>
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -29,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text="Nasi Goreng"
+                android:text="@{cart.nama}"
                 android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/imgFotoCart"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -40,7 +49,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
-                android:text="Rp. 15.000"
+                android:text="@{cart.harga}"
                 app:layout_constraintStart_toEndOf="@+id/imgFotoCart"
                 app:layout_constraintTop_toBottomOf="@+id/txtNamaItem" />
 
@@ -51,7 +60,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
-                android:text="Makanan"
+                android:text="@{cart.kategori}"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/imgFotoCart"
@@ -101,7 +110,7 @@
                 android:ems="10"
                 android:gravity="center"
                 android:inputType="number"
-                android:text="0"
+                android:text="@{cart.quantity}"
                 android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/imageButtonAdd"
@@ -111,3 +120,4 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
