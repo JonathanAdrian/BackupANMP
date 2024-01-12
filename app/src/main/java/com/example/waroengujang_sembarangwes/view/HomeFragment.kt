@@ -1,5 +1,6 @@
 package com.example.waroengujang_sembarangwes.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,6 +29,13 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val intent = requireActivity().intent
+        val receivedValue = intent.getStringExtra("username")
+
+        val txtNamaHome = view.findViewById<TextView>(R.id.txtNamaHome)
+
+        txtNamaHome.text=receivedValue;
 
         val btnSubmitHome = view.findViewById<Button>(R.id.btnSubmitHome)
         val editTableHome = view.findViewById<EditText>(R.id.editTableHome)

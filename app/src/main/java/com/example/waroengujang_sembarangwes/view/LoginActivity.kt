@@ -36,8 +36,11 @@ class LoginActivity : AppCompatActivity() {
 
             waiterViewModel.getWaiter(enteredUsername).observe(this, Observer { waiter ->
                 if (waiter != null && waiter.password == enteredPassword) {
+
                     val intent = Intent(this, MainActivity::class.java)
+                    intent.putExtra("username",enteredUsername )
                     startActivity(intent)
+
                     finish()
                     Toast.makeText(this, "Login Berhasil", Toast.LENGTH_SHORT).show()
                 } else {
