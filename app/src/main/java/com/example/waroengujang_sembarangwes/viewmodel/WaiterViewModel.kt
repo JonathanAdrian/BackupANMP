@@ -37,11 +37,11 @@ class WaiterViewModel(application: Application): AndroidViewModel(application) {
             // Assuming you want to add a sample menu item manually
             repository.clearDatabase()
             val sampleWaiter = Waiter(
-                username = "joko",
+                username = "jennie",
                 password = "111",
                 img_url = "https://www.hollywoodreporter.com/wp-content/uploads/2023/05/Jennie-Kim-2023-Met-Gala-getty-1486924742-H-2023.jpg?w=1296",
                 work_since = "January",
-                name = "Joko"
+                name = "jennie"
             )
             repository.insertWaiter(sampleWaiter)
         }
