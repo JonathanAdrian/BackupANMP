@@ -19,6 +19,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.waroengujang_sembarangwes.R
+import com.example.waroengujang_sembarangwes.model.Waiter
 import com.example.waroengujang_sembarangwes.viewmodel.WaiterViewModel
 import com.google.android.material.snackbar.Snackbar
 import com.squareup.picasso.Picasso
@@ -27,6 +28,7 @@ class ProfileFragment : Fragment() {
 
     private lateinit var waiterViewModel: WaiterViewModel
     private lateinit var username: String
+    private lateinit var firstOrder: Waiter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,7 +52,7 @@ class ProfileFragment : Fragment() {
         waiterViewModel = ViewModelProvider(this).get(WaiterViewModel::class.java)
         waiterViewModel.waiterLD.observe(viewLifecycleOwner) { waiters ->
             waiters?.let {
-                val firstOrder = it.first()
+                firstOrder = it.first()
                 txtNamaProfile.text = firstOrder.name
                 username = firstOrder.username
                 txtWorkSince.text = "Work since: " + firstOrder.work_since
@@ -88,13 +90,25 @@ class ProfileFragment : Fragment() {
 
         btnChangePassword.setOnClickListener {
             val newPassword = editTextNewPass.text.toString().trim()
+            val oldPassword = editTextOldPass.text.toString().trim()
+            val retype = editTextRetypePass.text.toString().trim()
             if (newPassword.isNotEmpty()) {
                 val waiterUsername = username
                 Log.e("asu", "onViewCreated: $username",)
 
-                waiterViewModel.updateWaiterPassword(newPassword, waiterUsername)
+                if(oldPassword == firstOrder.password){
+                    if(newPassword == retype){
+                        waiterViewModel.updateWaiterPassword(newPassword, waiterUsername)
+                        Toast.makeText(requireActivity(), "Password updated successfully", Toast.LENGTH_SHORT).show()
+                    }
+                    else{
+                        Toast.makeText(requireActivity(), "New Password Doesn't Match", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                else {
+                    Toast.makeText(requireActivity(), "Old Password Doesn't Match", Toast.LENGTH_SHORT).show()
+                }
 
-                Toast.makeText(requireActivity(), "Password updated successfully", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(requireActivity(), "Please enter a new password", Toast.LENGTH_SHORT).show()
             }

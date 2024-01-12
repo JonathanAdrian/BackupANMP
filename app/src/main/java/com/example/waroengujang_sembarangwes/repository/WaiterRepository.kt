@@ -17,6 +17,10 @@ class WaiterRepository(private val waiterDao: WaiterDao) {
         waiterDao.clearAllWaiters()
     }
 
+    fun getWaiter(username: String): LiveData<Waiter?> {
+        return waiterDao.getWaiter(username)
+    }
+
     fun updateWaiterPassword(password: String, username: String){
         return waiterDao.updateWaiterPassword(password, username)
     }

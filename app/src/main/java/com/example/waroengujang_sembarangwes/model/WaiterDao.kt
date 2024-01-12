@@ -18,6 +18,9 @@ interface WaiterDao {
     @Query("DELETE FROM waiter_table")
     fun clearAllWaiters()
 
+    @Query("SELECT * FROM waiter_table WHERE username = :username")
+    fun getWaiter(username: String): LiveData<Waiter?>
+
     @Query("UPDATE waiter_table SET password = :password WHERE username = :username")
     fun updateWaiterPassword(password: String, username: String)
 }

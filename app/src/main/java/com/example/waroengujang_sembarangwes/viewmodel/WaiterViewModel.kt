@@ -51,4 +51,8 @@ class WaiterViewModel(application: Application): AndroidViewModel(application) {
             repository.updateWaiterPassword(password, username)
         }
     }
+
+    fun getWaiter(username: String): LiveData<Waiter?> {
+        return repository.getWaiter(username)
+    }
 }
